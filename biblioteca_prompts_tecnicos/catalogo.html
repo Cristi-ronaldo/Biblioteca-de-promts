@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca de prompts técnicos</title>
+<style>
+  :root {
+    --fondo: #f4f6f9;
+    --tarjeta: #ffffff;
+    --texto: #1c2430;
+    --texto-suave: #5b6777;
+    --azul: #1f4e79;
+    --azul-claro: #e8f0f8;
+    --verde: #0f766e;
+    --borde: #dfe5ec;
+    --codigo: #0f1720;
+    --codigo-texto: #d7e3ee;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.6;
+  }
+
+  header {
+    background: linear-gradient(135deg, #12324f 0%, #1f4e79 60%, #2a6d9e 100%);
+    color: #fff;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+
+  header h1 {
+    margin: 0 0 10px;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    letter-spacing: -0.5px;
+  }
+
+  header p {
+    margin: 0 auto;
+    max-width: 640px;
+    color: #cfe0ef;
+    font-size: 1rem;
+  }
+
+  .contenedor {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+  }
+
+  .intro {
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-left: 5px solid var(--verde);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    color: var(--texto-suave);
+  }
+
+  .intro strong { color: var(--texto); }
+
+  .rejilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .tarjeta {
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(16, 42, 67, 0.05);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .tarjeta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(16, 42, 67, 0.10);
+  }
+
+  .etiqueta {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--azul-claro);
+    color: var(--azul);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+
+  .tarjeta h2 {
+    margin: 0 0 8px;
+    font-size: 1.18rem;
+    color: var(--azul);
+  }
+
+  .tarjeta p.descripcion {
+    margin: 0 0 16px;
+    color: var(--texto-suave);
+    font-size: 0.94rem;
+  }
+
+  .meta {
+    font-size: 0.82rem;
+    color: var(--texto-suave);
+    margin-bottom: 14px;
+  }
+
+  .meta span {
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  details {
+    margin-top: auto;
+    border-top: 1px solid var(--borde);
+    padding-top: 14px;
+  }
+
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--verde);
+    font-size: 0.92rem;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary::before {
+    content: "▸ ";
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+
+  details[open] summary::before { transform: rotate(90deg); }
+
+  pre {
+    background: var(--codigo);
+    color: var(--codigo-texto);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    max-height: 340px;
+    margin: 12px 0 0;
+    white-space: pre-wrap;
+  }
+
+  .acciones {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--azul);
+    color: #fff;
+    transition: background 0.15s;
+  }
+
+  button:hover { background: #173c5e; }
+
+  button.secundario {
+    background: transparent;
+    color: var(--azul);
+    border: 1px solid var(--borde);
+  }
+
+  button.secundario:hover { background: var(--azul-claro); }
+
+  .aviso {
+    margin-top: 34px;
+    padding: 18px 22px;
+    background: #fff8e6;
+    border: 1px solid #f0dca8;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #6b5312;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--texto-suave);
+    font-size: 0.82rem;
+    padding: 0 20px 40px;
+  }
+
+  @media print {
+    body { background: #fff; }
+    header { background: #fff; color: #000; padding: 10px 0; }
+    header p { color: #333; }
+    .tarjeta { box-shadow: none; page-break-inside: avoid; }
+    details { display: none; }
+    button { display: none; }
+  }
+</style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>Biblioteca de prompts técnicos</h1>
+  <p>Instrucciones reutilizables para documentar código, redactar correos técnicos y analizar incidencias con ayuda de inteligencia artificial.</p>
+</header>
+
+<div class="contenedor">
+
+  <div class="intro">
+    <strong>¿Cómo se usa?</strong> Elige el prompt que necesites, pulsa <em>Copiar prompt</em> y pégalo en tu asistente de IA.
+    Después reemplaza los textos entre corchetes con tu información. Si prefieres que el sistema te haga las preguntas,
+    ejecuta <code>python simulador_prompts.py</code> en la carpeta del proyecto.
+  </div>
+
+  <div class="rejilla">
+
+    <article class="tarjeta">
+      <span class="etiqueta">Documentación</span>
+      <h2>Documentar código</h2>
+      <p class="descripcion">Convierte un archivo o una función en documentación clara: qué hace, qué recibe, qué devuelve y qué casos especiales contempla.</p>
+      <div class="meta">
+        <span><strong>Ideal para:</strong> código heredado, entregas a cliente, APIs internas.</span>
+        <span><strong>Tiempo ahorrado:</strong> de 1 hora a 5 minutos.</span>
+      </div>
+      <details>
+        <summary>Ver prompt completo</summary>
+        <pre id="p1">Actúa como un ingeniero de software senior especializado en documentación técnica.
+
+CONTEXTO
+Tengo el siguiente código escrito en [LENGUAJE]. Necesito documentarlo para que lo entienda [PÚBLICO: compañero nuevo / cliente sin perfil técnico / otro desarrollador].
+
+CÓDIGO
+"""
+[PEGA AQUÍ EL CÓDIGO]
+"""
+
+TAREA
+Analiza el código y genera la documentación con esta estructura:
+
+1. Resumen en 2 o 3 líneas: qué hace el código y para qué se usa.
+2. Requisitos: dependencias, librerías o datos que necesita para funcionar.
+3. Funciones o clases: para cada una indica nombre y propósito, parámetros (tipo y significado), valor de retorno y errores que puede lanzar.
+4. Ejemplo de uso realista y ejecutable.
+5. Casos límite o comportamientos que conviene vigilar.
+6. Posibles mejoras (máximo 3, solo si son relevantes).
+
+REGLAS
+- Escribe en español claro y directo.
+- No inventes funciones, parámetros ni comportamientos que no estén en el código.
+- Si algo no se puede deducir del código, indícalo como "no es posible determinarlo".
+- Usa formato Markdown y bloques de código cuando corresponda.
+- No repitas el código completo en la respuesta; solo las partes necesarias.</pre>
+      </details>
+      <div class="acciones">
+        <button onclick="copiar('p1', this)">Copiar prompt</button>
+      </div>
+    </article>
+
+    <article class="tarjeta">
+      <span class="etiqueta">Comunicación</span>
+      <h2>Redactar correo técnico</h2>
+      <p class="descripcion">Escribe correos profesionales sobre mantenimientos, avances, problemas o solicitudes, con el tono y la estructura adecuados.</p>
+      <div class="meta">
+        <span><strong>Ideal para:</strong> avisos de mantenimiento, reportes, respuestas a clientes.</span>
+        <span><strong>Tiempo ahorrado:</strong> de 30 minutos a 2 minutos.</span>
+      </div>
+      <details>
+        <summary>Ver prompt completo</summary>
+        <pre id="p2">Actúa como un especialista en comunicación técnica dentro de una empresa de tecnología.
+
+CONTEXTO
+Necesito redactar un correo sobre el siguiente tema:
+- Destinatario: [QUIÉN LO RECIBE: cliente / jefe / equipo de desarrollo / proveedor]
+- Objetivo del correo: [INFORMAR / PEDIR ALGO / RESPONDER / DISCULPARME]
+- Tono deseado: [PROFESIONAL Y CERCANO / FORMAL / DIRECTO / EMPÁTICO]
+- Nivel técnico del destinatario: [ALTO / MEDIO / NULO]
+- Puntos clave que debe incluir:
+  1. [PUNTO 1]
+  2. [PUNTO 2]
+  3. [PUNTO 3]
+- Contexto adicional: [FECHAS, SISTEMAS, ANTECEDENTES, PLAZOS]
+- Acción que espero del destinatario: [RESPONDER / APROBAR / EJECUTAR / NADA]
+
+TAREA
+Redacta el correo con esta estructura:
+1. Asunto claro y específico (máximo 10 palabras).
+2. Saludo breve.
+3. Primer párrafo: el motivo del correo en una o dos frases.
+4. Cuerpo: los puntos clave, en orden de importancia.
+5. Cierre: la acción esperada y el plazo, si aplica.
+6. Despedida profesional.
+
+REGLAS
+- Escribe en español neutro y profesional.
+- Frases cortas. Nada de párrafos de más de 4 líneas.
+- Si el destinatario no es técnico, evita siglas o explícalas entre paréntesis.
+- No inventes datos, fechas ni compromisos que no te haya dado.
+- No uses lenguaje alarmista ni culpabilizador.
+- Entrega el correo listo para copiar y enviar, sin comentarios adicionales.
+- Al final, sugiere una versión de asunto alternativa.</pre>
+      </details>
+      <div class="acciones">
+        <button onclick="copiar('p2', this)">Copiar prompt</button>
+      </div>
+    </article>
+
+    <article class="tarjeta">
+      <span class="etiqueta">Soporte</span>
+      <h2>Analizar incidencias</h2>
+      <p class="descripcion">Ordena el análisis de una falla: impacto, hipótesis ordenadas, cómo confirmarlas, mitigación inmediata y prevención.</p>
+      <div class="meta">
+        <span><strong>Ideal para:</strong> caídas, errores intermitentes, reportes post-incidente.</span>
+        <span><strong>Tiempo ahorrado:</strong> evita horas de prueba y error.</span>
+      </div>
+      <details>
+        <summary>Ver prompt completo</summary>
+        <pre id="p3">Actúa como un analista de incidencias senior (SRE / soporte técnico nivel 3).
+
+CONTEXTO
+- Sistema afectado: [NOMBRE DEL SISTEMA O SERVICIO]
+- Síntoma observado: [QUÉ ESTÁ FALLANDO, CON EL MAYOR DETALLE POSIBLE]
+- Cuándo empezó: [FECHA Y HORA APROXIMADA]
+- Frecuencia: [SIEMPRE / INTERMITENTE / UNA SOLA VEZ]
+- Usuarios o procesos afectados: [QUIÉNES Y CUÁNTOS]
+- Impacto en el negocio: [ALTO / MEDIO / BAJO, Y POR QUÉ]
+- Cambios recientes: [DEPLOY, ACTUALIZACIÓN, CAMBIO DE CONFIGURACIÓN O "NINGUNO"]
+- Logs o mensajes de error:
+"""
+[PEGA AQUÍ LOS LOGS]
+"""
+
+TAREA
+Entrega un análisis con este orden:
+
+1. Resumen ejecutivo en 3 líneas, entendible para alguien no técnico.
+2. Impacto: a quién afecta, desde cuándo y qué se pierde mientras no se resuelve.
+3. Hipótesis ordenadas de mayor a menor probabilidad, con el motivo de cada una.
+4. Para cada hipótesis: cómo confirmarla o descartarla (comandos, consultas, revisión de configuración o preguntas al equipo).
+5. Mitigación inmediata: qué hacer ahora para reducir el impacto.
+6. Solución definitiva probable y qué se necesita para aplicarla.
+7. Prevención: 3 acciones concretas para evitar que se repita.
+8. Información que falta y que conviene pedir.
+
+REGLAS
+- No afirmes una causa como segura si no está confirmada por los datos.
+- Separa claramente "hecho observado" de "hipótesis".
+- Si los logs no alcanzan, dilo y explica qué evidencia hace falta.
+- Usa español claro; explica cualquier término técnico que aparezca.
+- Prioriza siempre reducir el impacto antes de buscar la causa raíz.</pre>
+      </details>
+      <div class="acciones">
+        <button onclick="copiar('p3', this)">Copiar prompt</button>
+      </div>
+    </article>
+
+    <article class="tarjeta">
+      <span class="etiqueta">Plantilla base</span>
+      <h2>Prompt maestro</h2>
+      <p class="descripcion">El molde para crear prompts nuevos: rol, contexto, tarea, formato, reglas y ejemplo. Úsalo cuando la necesidad no encaje en los otros tres.</p>
+      <div class="meta">
+        <span><strong>Ideal para:</strong> cualquier tarea nueva que quieras estandarizar.</span>
+        <span><strong>Ventaja:</strong> respuestas más claras desde el primer intento.</span>
+      </div>
+      <details>
+        <summary>Ver prompt completo</summary>
+        <pre id="p4">Actúa como [ROL ESPECÍFICO CON EXPERIENCIA].
+
+CONTEXTO
+[EXPLICA LA SITUACIÓN: qué tienes, para qué lo necesitas, quién lo va a leer y qué restricciones existen. Incluye aquí los datos de entrada.]
+
+TAREA
+[DESCRIBE LA TAREA EN PASOS CONCRETOS Y NUMERADOS.]
+
+FORMATO DE SALIDA
+[INDICA LA ESTRUCTURA EXACTA: secciones, tablas, longitud máxima, idioma.]
+
+REGLAS
+- [REGLA 1: por ejemplo, no inventar datos]
+- [REGLA 2: por ejemplo, español claro, sin tecnicismos innecesarios]
+- [REGLA 3: por ejemplo, si falta información, preguntar antes de responder]
+
+EJEMPLO DE BUENA RESPUESTA (OPCIONAL)
+"""
+[PEGA UN EJEMPLO CORTO DEL RESULTADO QUE ESPERAS]
+"""</pre>
+      </details>
+      <div class="acciones">
+        <button onclick="copiar('p4', this)">Copiar prompt</button>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="aviso">
+    <strong>Recomendación:</strong> revisa siempre la respuesta de la IA antes de enviarla a un cliente o de tomar una decisión.
+    Los prompts ayudan a ordenar el trabajo, pero el criterio final es humano.
+  </div>
+
+</div>
+
+<footer>
+  Biblioteca de prompts técnicos · Proyecto de ejemplo · Los datos y ejemplos son ficticios.
+</footer>
+
+<script>
+  function copiar(id, boton) {
+    const texto = document.getElementById(id).innerText;
+    const listo = () => {
+      const original = boton.innerText;
+      boton.innerText = "¡Copiado!";
+      setTimeout(() => { boton.innerText = original; }, 1600);
+    };
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(texto).then(listo).catch(() => respaldo(texto, listo));
+    } else {
+      respaldo(texto, listo);
+    }
+  }
+
+  function respaldo(texto, listo) {
+    const area = document.createElement("textarea");
+    area.value = texto;
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    try { document.execCommand("copy"); listo(); } catch (e) { alert("No se pudo copiar automáticamente."); }
+    document.body.removeChild(area);
+  }
+</script>
+
+</body>
+</html>

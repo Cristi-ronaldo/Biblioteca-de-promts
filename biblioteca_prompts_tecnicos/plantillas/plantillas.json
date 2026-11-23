@@ -1,0 +1,39 @@
+{
+  "documentar_codigo": {
+    "nombre": "Documentar código",
+    "descripcion": "Convierte un archivo de código en documentación clara y ordenada.",
+    "preguntas": [
+      {"clave": "lenguaje", "pregunta": "¿En qué lenguaje está el código?", "ejemplo": "Python"},
+      {"clave": "publico", "pregunta": "¿Para quién es la documentación?", "ejemplo": "un compañero nuevo del equipo"},
+      {"clave": "codigo", "pregunta": "Ruta del archivo de código (Enter para usar el ejemplo incluido)", "ejemplo": ""}
+    ],
+    "plantilla": "Actúa como un ingeniero de software senior especializado en documentación técnica.\n\nCONTEXTO\nTengo el siguiente código escrito en {{lenguaje}}. Necesito documentarlo para que lo entienda {{publico}}.\n\nCÓDIGO\n\"\"\"\n{{codigo}}\n\"\"\"\n\nTAREA\nAnaliza el código y genera la documentación con esta estructura:\n\n1. Resumen en 2 o 3 líneas: qué hace el código y para qué se usa.\n2. Requisitos: dependencias, librerías o datos que necesita para funcionar.\n3. Funciones o clases: para cada una indica nombre y propósito, parámetros (tipo y significado), valor de retorno y errores que puede lanzar.\n4. Ejemplo de uso realista y ejecutable.\n5. Casos límite o comportamientos que conviene vigilar.\n6. Posibles mejoras (máximo 3, solo si son relevantes).\n\nREGLAS\n- Escribe en español claro y directo.\n- No inventes funciones, parámetros ni comportamientos que no estén en el código.\n- Si algo no se puede deducir del código, indícalo como \"no es posible determinarlo\".\n- Usa formato Markdown y bloques de código cuando corresponda.\n- No repitas el código completo en la respuesta; solo las partes necesarias."
+  },
+  "correo_tecnico": {
+    "nombre": "Redactar correo técnico",
+    "descripcion": "Arma un correo profesional sobre un tema técnico, con tono y estructura adecuados.",
+    "preguntas": [
+      {"clave": "destinatario", "pregunta": "¿Quién recibe el correo?", "ejemplo": "el equipo de operaciones"},
+      {"clave": "objetivo", "pregunta": "¿Qué quieres lograr con el correo?", "ejemplo": "avisar de un mantenimiento programado"},
+      {"clave": "tono", "pregunta": "¿Qué tono quieres?", "ejemplo": "profesional y cercano"},
+      {"clave": "nivel", "pregunta": "¿Qué nivel técnico tiene el destinatario?", "ejemplo": "medio"},
+      {"clave": "puntos", "pregunta": "Puntos clave (separa con punto y coma ;)", "ejemplo": "fecha y horario del mantenimiento; servicio no disponible; emitir facturas antes del viernes"},
+      {"clave": "accion", "pregunta": "¿Qué acción esperas del destinatario?", "ejemplo": "ninguna, solo informar"}
+    ],
+    "plantilla": "Actúa como un especialista en comunicación técnica dentro de una empresa de tecnología.\n\nCONTEXTO\nNecesito redactar un correo sobre el siguiente tema:\n- Destinatario: {{destinatario}}\n- Objetivo del correo: {{objetivo}}\n- Tono deseado: {{tono}}\n- Nivel técnico del destinatario: {{nivel}}\n- Puntos clave que debe incluir:\n{{puntos}}\n- Acción que espero del destinatario: {{accion}}\n\nTAREA\nRedacta el correo con esta estructura:\n1. Asunto claro y específico (máximo 10 palabras).\n2. Saludo breve.\n3. Primer párrafo: el motivo del correo en una o dos frases.\n4. Cuerpo: los puntos clave, en orden de importancia.\n5. Cierre: la acción esperada y el plazo, si aplica.\n6. Despedida profesional.\n\nREGLAS\n- Escribe en español neutro y profesional.\n- Frases cortas. Nada de párrafos de más de 4 líneas.\n- Si el destinatario no es técnico, evita siglas o explícalas entre paréntesis.\n- No inventes datos, fechas ni compromisos que no te haya dado.\n- No uses lenguaje alarmista ni culpabilizador.\n- Entrega el correo listo para copiar y enviar, sin comentarios adicionales.\n- Al final, sugiere una versión de asunto alternativa."
+  },
+  "analisis_incidencias": {
+    "nombre": "Analizar incidencias",
+    "descripcion": "Ordena el análisis de una falla: impacto, hipótesis, mitigación y prevención.",
+    "preguntas": [
+      {"clave": "sistema", "pregunta": "¿Qué sistema o servicio está afectado?", "ejemplo": "el portal de pagos"},
+      {"clave": "sintoma", "pregunta": "Describe el síntoma con detalle", "ejemplo": "responde error 500 al 30% de los usuarios"},
+      {"clave": "inicio", "pregunta": "¿Cuándo empezó?", "ejemplo": "hoy a las 09:15"},
+      {"clave": "frecuencia", "pregunta": "¿Con qué frecuencia ocurre?", "ejemplo": "intermitente"},
+      {"clave": "impacto", "pregunta": "¿Cuál es el impacto en el negocio?", "ejemplo": "alto: los clientes no pueden completar pagos"},
+      {"clave": "cambios", "pregunta": "¿Hubo cambios recientes?", "ejemplo": "ninguno"},
+      {"clave": "logs", "pregunta": "Pega los logs o escribe 'sin logs disponibles'", "ejemplo": "sin logs disponibles"}
+    ],
+    "plantilla": "Actúa como un analista de incidencias senior (SRE / soporte técnico nivel 3).\n\nCONTEXTO\n- Sistema afectado: {{sistema}}\n- Síntoma observado: {{sintoma}}\n- Cuándo empezó: {{inicio}}\n- Frecuencia: {{frecuencia}}\n- Impacto en el negocio: {{impacto}}\n- Cambios recientes: {{cambios}}\n- Logs o mensajes de error:\n\"\"\"\n{{logs}}\n\"\"\"\n\nTAREA\nEntrega un análisis con este orden:\n\n1. Resumen ejecutivo en 3 líneas, entendible para alguien no técnico.\n2. Impacto: a quién afecta, desde cuándo y qué se pierde mientras no se resuelve.\n3. Hipótesis ordenadas de mayor a menor probabilidad, con el motivo de cada una.\n4. Para cada hipótesis: cómo confirmarla o descartarla (comandos, consultas, revisión de configuración o preguntas al equipo).\n5. Mitigación inmediata: qué hacer ahora para reducir el impacto.\n6. Solución definitiva probable y qué se necesita para aplicarla.\n7. Prevención: 3 acciones concretas para evitar que se repita.\n8. Información que falta y que conviene pedir.\n\nREGLAS\n- No afirmes una causa como segura si no está confirmada por los datos.\n- Separa claramente \"hecho observado\" de \"hipótesis\".\n- Si los logs no alcanzan, dilo y explica qué evidencia hace falta.\n- Usa español claro; explica cualquier término técnico que aparezca.\n- Prioriza siempre reducir el impacto antes de buscar la causa raíz."
+  }
+}
